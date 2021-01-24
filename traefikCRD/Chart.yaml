@@ -1,0 +1,7 @@
+apiVersion: v2
+name: traefikCRD
+description: Custom resource definition for traefik 2+
+
+type: application
+
+version: 0.1.0
