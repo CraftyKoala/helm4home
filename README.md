@@ -1,9 +1,9 @@
 # Helm Charts (for) Home Use
-Simple Helm Charts for Home Use. Simple charts to deploy at home.
+Simple Helm Charts for Home Use. 
 
 Helm Version: 3
   
-## "Features
+## ¨Features¨
 
 ### **Self Contained Repo**
 Apart from the docer images no charts have dependencies outside of this repository.
@@ -31,6 +31,13 @@ So installing a chart could look like this:
 ```CLI
   helm install -n <namespace> -f <custom_values.yaml> <release> <chart_dir>
 ```
+
+### Naming Prefix
+By default the charts will also not use the release prefix. If you wish to have a prefix set the value
+```yaml
+  usePrefix: true 
+```
+
 ### Values
 For simplicity you can define the custom values in a file that you pass to helm like above. The file will have to look like this:
 ```yaml
@@ -40,10 +47,4 @@ For simplicity you can define the custom values in a file that you pass to helm 
     SOME_ENV_VARIABLE: value
 ```
 Check the `values.yaml` files for the values to overwrite. 
-
-### Naming Prefix
-By default the charts will also not use the release prefix. If you wish to have a prefix set the value
-```yaml
-  usePrefix: true 
-```
 
