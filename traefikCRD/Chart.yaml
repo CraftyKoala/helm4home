@@ -1,5 +1,5 @@
 apiVersion: v2
-name: traefikCRD
+name: traefik-crd
 description: Custom resource definition for traefik 2+
 
 type: application
