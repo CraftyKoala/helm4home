@@ -4,7 +4,7 @@ Simple Helm Charts for Home Use.
 ## TL;DR;
 - Simple way of running a few containers in Kubernetes (K3S). 
 - No Scaling, no RBAC, no service mesh
-- All of them are linux/arm(V7) compatible
+- All charts are linux/arm(V7) compatible
 
 ## Prerequisites
 - Helm Version 3 required
@@ -17,7 +17,8 @@ Apart from the docer images no charts have dependencies outside of this reposito
 
 
 ### **KISS** - Keep it stupid simple
-These charts are simple. It is not recomended to deploy these in a corporate environment. 
+These charts are simple. Easy to understand, to use (and to extend).  
+It is not recomended to deploy these in a corporate environment. 
 
 
 ### **RBAC** - No Service Accounts
@@ -31,6 +32,9 @@ The charts use a library chart called `baseChart`. This includes most of the man
 ### **PI** - Fit for raspberry PI
 As many home users I am running charts on a raspberry pi. Therefore the docker images used by these charts are able to run on `linux/arm(V7)`
 
+### **Single App**
+The charts always contain a single app and no stacks. Tough they can easily be used to build a stack.
+I'm using ansible to deploy the charts so it automatically builds a working environment in the cluster.
 
 ## Installation
 As usual with helm charts you can just clone the repo and run helm install.  
