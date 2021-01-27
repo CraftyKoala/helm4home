@@ -1,0 +1,8 @@
+apiVersion: v2
+name: baseChart
+description: Base library for all charts in the hechou repository
+
+# Library stops helm from deploying this chart as it does not define an application.
+type: library
+
+version: 0.1.0

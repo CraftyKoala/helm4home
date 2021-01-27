@@ -1,0 +1,46 @@
+---
+{{- define "baseChart.ingressRoute.tpl" -}}
+
+{{- if .Values.ingress.local -}}
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ include "baseChart.name" . }}
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: {{ printf "Host(`%s`)" .Values.ingress.local.host }}
+    kind: Rule
+    services:
+    - name: {{ include "baseChart.name" . }}
+      port: {{ .Values.ingress.port }}
+
+{{- end }}{{/* if */}}
+
+{{- if .Values.ingress.public -}}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ include "baseChart.name" . }}-public
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: {{ printf "Host(`%s`)" .Values.ingress.public.host }}
+    kind: Rule
+    services:
+    - name: {{ include "baseChart.name" . }}
+      port: {{ .Values.ingress.port }}
+  tls:
+    certResolver: {{ .Values.ingress.public.certResolver }}
+    domains:
+    - main: {{ .Values.ingress.public.domain }}
+      sans:
+      {{- range .Values.ingress.public.sans }}
+      - {{ . }}
+      {{- end }}
+
+  {{- end }}{{/* if */}}
+  {{- end }}{{/* template */}}
