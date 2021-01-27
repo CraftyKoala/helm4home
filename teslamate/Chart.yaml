@@ -1,0 +1,11 @@
+apiVersion: v2
+name: postgres
+type: application
+
+version: 0.0.1
+appVersion: 1.21
+
+dependencies:
+- name: baseChart
+  version: 0.1.0
+  repository: "file://../baseChart"
