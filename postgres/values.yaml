@@ -1,0 +1,21 @@
+# Default values for homer.
+
+replicaCount: 1
+
+image:
+  repository: postgres
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+ports: 
+  sql:
+    port: 5432
+
+env_secret:
+  POSTGRES_PASSWORD: ""
+
+bind: 
+  data:
+    mountPath: /var/lib/postgresql/data
+    hostPath: /var/lib/postgresql/data
