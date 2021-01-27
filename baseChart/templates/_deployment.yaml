@@ -45,7 +45,11 @@ spec:
               protocol: {{ $value.type | default "TCP" }}
             {{- end }}          
           {{- end }}
-          env:          
+          env:
+          {{- range $name, $value := .Values.env }}
+          - name: {{ $name }}
+            value: {{ $value | quote }}
+          {{- end }}
           {{- range $name, $value := .Values.env_secret }}
           - name: {{ $name }}
             valueFrom:

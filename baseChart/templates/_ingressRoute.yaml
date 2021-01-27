@@ -10,11 +10,11 @@ spec:
   entryPoints:
     - web
   routes:
-  - match: {{ printf "Host(`%s`)" .Values.ingress.local.host }}
+  - match: {{ printf "Host(`%s%s`)" .Values.ingress.local.prefix .Values.ingress.local.host }}
     kind: Rule
     services:
     - name: {{ include "baseChart.name" . }}
-      port: {{ .Values.ingress.port }}
+      port: {{ .Values.ingress.local.port }}
 
 {{- end }}{{/* if */}}
 

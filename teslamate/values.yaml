@@ -20,8 +20,11 @@ env:
 env_secret:
   DATABASE_USER: ""
   DATABASE_PASS: secret
+  MQTT_USERNAME: ""
+  MQTT_PASSWORD: secret
 
-bind: 
-  data:
-    mountPath: /var/lib/postgresql/data
-    hostPath: /var/lib/postgresql/data
+ingress:
+  local:
+    host: ""                           # Change this
+    prefix: teslamate.
+    port: 4000
