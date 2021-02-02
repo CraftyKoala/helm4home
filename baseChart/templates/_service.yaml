@@ -1,0 +1,28 @@
+{{- define "baseChart.service.tpl" -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "baseChart.name" . }}
+  labels:
+    {{- include "baseChart.labels" . | nindent 4 }}
+spec:
+
+  {{- /* Type of the service should be ClusterIP in mostcased so this is the default if no value is given */}}
+  type: {{ .Values.serviceType | default "ClusterIP" }}
+  
+  {{- /* Ports the service is exposing in the cluster */}}
+  {{- if .Values.ports }}
+  ports:
+    {{- range $name, $value := .Values.ports }}
+    - name: {{ $name }}
+      port: {{ $value.port }}
+      targetPort: {{ $value.port }}
+      protocol: {{ $value.type | default "TCP" }}
+    {{- end }}
+  {{- end }}
+
+  {{- /* Selectors to identify pods to forward to */}}
+  selector:
+    {{- include "baseChart.selectorLabels" . | nindent 4 }}
+
+{{- end -}}

@@ -1,0 +1,80 @@
+---
+{{- define "baseChart.deployment.tpl" -}}
+
+{{/* Variables */}}
+{{- $credSecret := include "baseChart.secretName" . -}}
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "baseChart.name" . }}
+  labels:
+    {{- include "baseChart.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "baseChart.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "baseChart.selectorLabels" . | nindent 8 }}
+    spec:
+      dnsPolicy: ClusterFirst
+      containers:
+
+        {{- /* Definition of the container running inside the pod */}}
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+
+          {{- /* Volumes mounted in the container */}}
+          {{- if .Values.bind }}
+          volumeMounts:
+            {{- range $name, $value := .Values.bind }}
+            - name: {{ $name }}
+              mountPath: {{ $value.mountPath }}
+            {{- end }}    
+          {{- end }}
+
+          {{- /* Open ports on the container that the pod should expose to the service */}}
+          {{- if .Values.ports }}
+          ports:
+            {{- range $name, $value := .Values.ports }}
+            - name: {{ $name }}
+              containerPort: {{ $value.port }}
+              {{- if $value.hostPort }}
+              hostPort: {{ $value.hostPort }}
+              {{- end }}  
+              protocol: {{ $value.type | default "TCP" }}
+            {{- end }}          
+          {{- end }}
+          
+          {{- /* Environment variables */}}
+          {{- if or .Values.env .Values.env_secret }}
+          env:
+          {{- range $name, $value := .Values.env }}
+          - name: {{ $name }}
+            value: {{ $value | quote }}
+          {{- end }}
+          {{- range $name, $value := .Values.env_secret }}
+          - name: {{ $name }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ $credSecret }}
+                key: {{ $name }}
+          {{- end }}
+          {{- end }}
+        
+      {{- /* Volumes mounted in the container */}}
+      {{- if .Values.bind }}
+      volumes:
+        {{- range $name, $value := .Values.bind }}
+        - name: {{ $name }}
+          hostPath: 
+            path: {{ $value.hostPath }}
+            type: {{ $value.type | default "DirectoryOrCreate" }}
+        {{- end }}    
+      {{- end }}
+
+{{- end -}}

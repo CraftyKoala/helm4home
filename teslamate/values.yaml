@@ -1,0 +1,30 @@
+# Default values for homer.
+
+replicaCount: 1
+
+image:
+  repository: teslamate/teslamate
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+ports: 
+  sql:
+    port: 4000
+
+env:
+  DATABASE_NAME: teslamate
+  DATABASE_HOST: database
+  MQTT_HOST: mosquitto
+
+env_secret:
+  DATABASE_USER: ""
+  DATABASE_PASS: secret
+  MQTT_USERNAME: ""
+  MQTT_PASSWORD: secret
+
+ingress:
+  local:
+    host: ""                           # Change this
+    prefix: teslamate.
+    port: 4000

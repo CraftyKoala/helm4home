@@ -1,0 +1,94 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "traefik.name" . }}
+  namespace: {{ .Values.namespace | default "kube-system" }}
+  labels:
+    {{- include "traefik.labels" . | nindent 4 }}
+
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "traefik.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "traefik.selectorLabels" . | nindent 8 }}
+    spec:
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      serviceAccount: {{ include "traefik.serviceAccountName" . }}
+      serviceAccountName: {{ include "traefik.serviceAccountName" . }}
+      terminationGracePeriodSeconds: 60
+      containers:
+      - name: {{ include "traefik.name" . }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+
+        ports:
+        {{- range $name, $values := .Values.entryPoints }}
+        - name: {{ $name }}
+          containerPort: {{ $values.port }}
+          protocol: {{ $values.protocol }}
+        {{- end }}
+
+        {{- if .Values.duckdns }}
+        env:
+        - name: DUCKDNS_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.duckdns.secretName }}
+              key: duckdns_token   
+        {{- end }}
+
+        args:
+        - --configfile=/config/traefik.yaml
+
+        volumeMounts:
+        - name: config
+          mountPath: "/config"
+          readOnly: true
+        {{- if .Values.duckdns }}
+        - name: cert
+          mountPath: "/cert"
+        {{- end }}
+
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /ping
+            port: 9000
+            scheme: HTTP
+          initialDelaySeconds: 60
+          periodSeconds: 60
+          successThreshold: 1
+          timeoutSeconds: 2       
+
+        readinessProbe:
+          failureThreshold: 1
+          httpGet:
+            path: /ping
+            port: 9000
+            scheme: HTTP
+          initialDelaySeconds: 60
+          periodSeconds: 60
+          successThreshold: 1
+          timeoutSeconds: 2
+
+      volumes:
+      - name: config
+        configMap:
+          name: {{ .Chart.Name }}-config
+      {{- if .Values.duckdns }}
+      - name: cert
+        hostPath:
+          path: {{ .Values.duckdns.certPath }}
+          type: DirectoryOrCreate
+      {{- end }}
