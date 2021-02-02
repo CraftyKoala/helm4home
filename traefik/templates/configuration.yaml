@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "traefik.name" . }}-config
+  namespace: {{ .Values.namespace | default "kube-system" }}
+data:
+  traefik.yaml: |
+    api:
+      dashboard: true
+
+    accessLog: {}
+    ping: {}
+
+    global:
+      checkNewVersion: false
+      sendAnonymousUsage: false
+
+    providers:
+      kubernetesCRD: {}
+      kubernetesIngress: {}
+
+    entryPoints:
+      {{- range $name, $values := .Values.entryPoints }}
+      {{ $name }}:
+        address: :{{ $values.port }}{{ $values.suffix }}
+      {{- end }}
+      traefik:
+        address: :9000
+    
+    {{- if .Values.duckdns }}
+    certificatesResolvers:
+      duckdns:
+        acme:
+          email: {{ .Values.duckdns.email | quote }}
+          storage: "/cert/acme.json"
+          caServer: {{ .Values.duckdns.caServer | quote }}
+          dnsChallenge:
+            provider: duckdns
+    {{- end }}
+
+    log:
+      level: INFO

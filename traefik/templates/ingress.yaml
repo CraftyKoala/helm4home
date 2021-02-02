@@ -1,0 +1,15 @@
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ include "traefik.name" . }}
+  namespace: {{ .Values.namespace | default "kube-system" }}
+spec:
+  routes:
+    - match: {{ printf "Host(`%s%s`) " .Values.ingress.prefix .Values.ingress.host -}}
+              && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))
+      kind: Rule
+      services:
+        - name: api@internal
+          kind: TraefikService

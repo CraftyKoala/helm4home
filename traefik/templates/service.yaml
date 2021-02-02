@@ -1,2 +1,29 @@
----
-{{- template "baseChart.service.tpl" . -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Chart.Name }}
+  namespace: {{ .Values.namespace | default "kube-system" }}
+  labels:
+    {{- include "traefik.labels" . | nindent 4 }}
+spec:
+  sessionAffinity: None
+  type: LoadBalancer
+
+  externalIPs:
+  - {{ .Values.hostIP }}
+
+  externalTrafficPolicy: Local
+  
+  ports:
+    {{- range $name, $values := .Values.entryPoints }}
+    - name: {{ $name }}
+      port: {{ $values.port }}
+      targetPort: {{ $values.port }}
+      protocol: {{ $values.protocol }}
+    {{- end }}
+
+  selector:
+    {{- include "traefik.selectorLabels" . | nindent 4 }}
+
+status:
+  loadBalancer: {}

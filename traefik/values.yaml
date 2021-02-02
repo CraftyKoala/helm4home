@@ -1,5 +1,5 @@
 # Default values for homer.
-
+namespace: kube-system
 replicaCount: 1
 
 image:
@@ -8,7 +8,22 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
-ingress:
-  local:
-    host: ""                           # Change this
-    prefix: traefik.
+entryPoints:
+  web:
+    port: 80
+    protocol: TCP
+  websecure:
+    port: 443
+    protocol: TCP
+
+hostIP: 0.0.0.0
+ingress:  # Change this
+  host: ""                           
+  prefix: traefik.
+
+duckdns:            # Update duckdns values, set empty string "" to remove 
+  secretName: duckdns-token
+  caServer: https://acme-staging-v02.api.letsencrypt.org/directory
+  email: some.one@mail.com
+  token: ""
+  certPath: /val/lib/traefik/cert
