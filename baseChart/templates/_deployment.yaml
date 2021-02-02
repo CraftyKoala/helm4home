@@ -8,6 +8,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "baseChart.name" . }}
+  namespace: {{ .Values.namespace | default "kube-system" }}
   labels:
     {{- include "baseChart.labels" . | nindent 4 }}
 spec:
@@ -42,9 +43,15 @@ spec:
             {{- range $name, $value := .Values.ports }}
             - name: {{ $name }}
               containerPort: {{ $value.port }}
+              {{- if $value.hostPort }}
+              hostPort: {{ $value.hostPort }}
+              {{- end }}  
               protocol: {{ $value.type | default "TCP" }}
             {{- end }}          
           {{- end }}
+          
+          {{- /* Environment variables */}}
+          {{- if or .Values.env .Values.env_secret }}
           env:
           {{- range $name, $value := .Values.env }}
           - name: {{ $name }}
@@ -56,6 +63,7 @@ spec:
               secretKeyRef:
                 name: {{ $credSecret }}
                 key: {{ $name }}
+          {{- end }}
           {{- end }}
         
       {{- /* Volumes mounted in the container */}}
