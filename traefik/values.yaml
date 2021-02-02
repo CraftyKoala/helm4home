@@ -1,0 +1,14 @@
+# Default values for homer.
+
+replicaCount: 1
+
+image:
+  repository: traefik
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+ingress:
+  local:
+    host: ""                           # Change this
+    prefix: traefik.
