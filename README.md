@@ -43,6 +43,7 @@ As usual with helm charts you can just clone the repo and run helm install.
 
 So installing a chart could look like this:
 ```CLI
+  helm dep update
   helm install -n <namespace> -f <custom_values.yaml> <release> <chart_dir>
 ```
 
