@@ -1,0 +1,11 @@
+apiVersion: v2
+name: minio
+type: application
+
+version: 0.0.1
+appVersion: RELEASE.2020-12-03T05-49-24Z
+
+dependencies:
+- name: baseChart
+  version: 0.1.0
+  repository: "file://../baseChart"
