@@ -32,7 +32,7 @@ spec:
     kind: Rule
     services:
     - name: {{ include "baseChart.name" . }}
-      port: {{ .Values.ingress.port }}
+      port: {{ .Values.ingress.public.port }}
   tls:
     certResolver: {{ .Values.ingress.public.certResolver }}
     domains:
