@@ -27,8 +27,20 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.command }}
+          command: 
+            {{- range .Values.command }}
+            - {{ . | quote }}
+            {{- end }}
+          {{- end }}
+          {{- if .Values.args }}
+          args:
+            {{- range .Values.args }}
+            - {{ . | quote }}
+            {{- end }}
+          {{- end }}
 
-          {{- /* Volumes mounted in the container */}}
+        {{- /* Volumes mounted in the container */}}
           {{- if .Values.bind }}
           volumeMounts:
             {{- range $name, $value := .Values.bind }}
@@ -37,7 +49,7 @@ spec:
             {{- end }}    
           {{- end }}
 
-          {{- /* Open ports on the container that the pod should expose to the service */}}
+        {{- /* Open ports on the container that the pod should expose to the service */}}
           {{- if .Values.ports }}
           ports:
             {{- range $name, $value := .Values.ports }}
@@ -50,7 +62,7 @@ spec:
             {{- end }}          
           {{- end }}
           
-          {{- /* Environment variables */}}
+        {{- /* Environment variables */}}
           {{- if or .Values.env .Values.env_secret }}
           env:
           {{- range $name, $value := .Values.env }}
