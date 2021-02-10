@@ -64,7 +64,7 @@ spec:
           failureThreshold: 3
           httpGet:
             path: /ping
-            port: 9000
+            port: 8040
             scheme: HTTP
           initialDelaySeconds: 60
           periodSeconds: 60
@@ -75,7 +75,7 @@ spec:
           failureThreshold: 1
           httpGet:
             path: /ping
-            port: 9000
+            port: 8040
             scheme: HTTP
           initialDelaySeconds: 60
           periodSeconds: 60
