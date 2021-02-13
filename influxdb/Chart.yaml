@@ -1,0 +1,11 @@
+apiVersion: v2
+name: influxdb
+type: application
+
+version: 0.0.1
+appVersion: 1.8
+
+dependencies:
+- name: baseChart
+  version: 0.1.0
+  repository: "file://../baseChart"

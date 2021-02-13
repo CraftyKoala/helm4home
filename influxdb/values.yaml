@@ -1,0 +1,28 @@
+# Default values for homer.
+
+replicaCount: 1
+
+#Docker image for InfluxDB
+image:
+  repository: influxdb
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+# Main Data storage location
+bind: 
+  data:
+    mountPath: /var/lib/influxdb
+    hostPath: /var/lib/influxdb/data
+
+# Internal port of InfluxDB
+ports: 
+  http:
+    port: 8086
+
+# External access
+ingress:
+  local:
+    host: ""                           # Change this
+    prefix: influxdb.
+    port: 8086
