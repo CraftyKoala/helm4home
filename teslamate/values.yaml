@@ -26,5 +26,5 @@ env_secret:
 ingress:
   local:
     host: ""                           # Change this
-    prefix: teslamate.
+    subdomain: teslamate.
     port: 4000
