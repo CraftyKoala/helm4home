@@ -21,9 +21,17 @@ spec:
         {{- include "baseChart.selectorLabels" . | nindent 8 }}
     spec:
       dnsPolicy: ClusterFirst
-      containers:
 
-        {{- /* Definition of the container running inside the pod */}}
+      {{- /* ID of user and group for the container */}}
+      {{- if .Values.security }}
+      securityContext:
+        runAsUser: {{ default 1000 .Values.security.user }}
+        runAsGroup: {{ default 1000 .Values.security.group }}
+        fsGroup: {{ default 1000 .Values.security.fsgroup }}
+      {{- end }}
+
+      {{- /* Definition of the container running inside the pod */}}
+      containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
