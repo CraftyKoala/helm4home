@@ -1,0 +1,23 @@
+replicaCount: 1
+
+image:
+  repository: phpmyadmin
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+env:
+  PMA_HOST: mariadb
+  PMA_PORT: 3306
+
+# Internal port
+ports: 
+  http:
+    port: 80
+
+# External access
+ingress:
+  local:
+    host: ""                           # Change this
+    subdomain: phpmyadmin.
+    port: 80
