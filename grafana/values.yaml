@@ -2,9 +2,9 @@
 
 replicaCount: 1
 
-#Docker image for InfluxDB
+#Docker image for MinIO
 image:
-  repository: influxdb
+  repository: grafana/grafana
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
@@ -12,17 +12,17 @@ image:
 # Main Data storage location
 bind: 
   data:
-    mountPath: /var/lib/influxdb
-    hostPath: /var/lib/influxdb/data
+    mountPath: /var/lib/grafana
+    hostPath: /var/lib/grafana
 
-# Internal port of InfluxDB
+# Internal port of Chronograf
 ports: 
   http:
-    port: 8086
+    port: 3000
 
 # External access
 ingress:
   local:
     host: ""                           # Change this
-    subdomain: influxdb.
-    port: 8086
+    subdomain: grafana.
+    port: 3000
