@@ -1,0 +1,27 @@
+replicaCount: 1
+
+image:
+  repository: linuxserver/mariadb
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+# Main Data storage location
+bind: 
+  data:
+    mountPath: /config
+    hostPath: /var/lib/mariadb
+
+env:
+  PUID: 1000
+  PGUID: 1000
+  TZ: Europe/Berlin
+
+env_secret:
+  MYSQL_ROOT_PASSWORD: WRuxr7q@iaZ@7_qNPQ6p2L.VjkfRH2dK2Kgsh_68j9 # change this
+
+
+# Internal port of MariaDB
+ports: 
+  http:
+    port: 3306
