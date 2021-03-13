@@ -18,7 +18,7 @@ spec:
 
 {{- end }}{{/* if */}}
 
-{{- if .Values.ingress.public -}}
+{{- if .Values.ingress.public }}
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
@@ -28,23 +28,26 @@ spec:
   entryPoints:
     - websecure
   routes:
-  {{- if .Values.ingress.public.pathPrefix }}
-  - match: {{ printf "Host(`%s%s`) && PathPrefix(`/%s`)" .Values.ingress.local.subdomain .Values.ingress.public.host .Values.ingress.public.pathPrefix }}
-  {{- else }}
-  - match: {{ printf "Host(`%s%s`)" .Values.ingress.local.subdomain .Values.ingress.local.host }}
-  {{- end }}
-    kind: Rule
+  - kind: Rule
+
+    {{- if .Values.ingress.public.pathPrefix }}
+    match: {{ printf "Host(`%s%s`) && PathPrefix(`/%s`)" .Values.ingress.public.subdomain .Values.ingress.public.host .Values.ingress.public.pathPrefix }}
+    {{- else }}
+    match: {{ printf "Host(`%s%s`)" .Values.ingress.public.subdomain .Values.ingress.local.host }}
+    {{- end }}
+
+    {{- if .Values.ingress.public.middlewares }}
+    middlewares:
+      {{- range .Values.ingress.public.middlewares }}
+      - name: {{ .name }}
+        namespace: {{ .namespace }}
+      {{- end }}
+    {{- end }}
     services:
     - name: {{ include "baseChart.name" . }}
       port: {{ .Values.ingress.public.port }}
   tls:
     certResolver: {{ .Values.ingress.public.certResolver }}
-    domains:
-    - main: {{ .Values.ingress.public.domain }}
-      sans:
-      {{- range .Values.ingress.public.sans }}
-      - {{ . }}
-      {{- end }}
 
   {{- end }}{{/* if */}}
   {{- end }}{{/* template */}}
