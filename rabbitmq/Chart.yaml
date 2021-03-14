@@ -1,0 +1,11 @@
+apiVersion: v2
+name: rabbitmq
+type: application
+
+version: 0.0.1
+appVersion: 3-management-alpine
+
+dependencies:
+- name: baseChart
+  version: 0.1.0
+  repository: "file://../baseChart"

@@ -30,7 +30,7 @@ spec:
         fsGroup: {{ default 1000 .Values.security.fsgroup }}
       {{- end }}
 
-      {{- /* Definition of the container running inside the pod */}}
+      {{- /* -- Definition of the container running inside the pod */}}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -48,16 +48,21 @@ spec:
             {{- end }}
           {{- end }}
 
-        {{- /* Volumes mounted in the container */}}
+        {{- /* -- Volumes mounted in the container */}}
           {{- if .Values.bind }}
           volumeMounts:
+            {{- range $name, $value := .Values.configFiles }}
+            - name: config
+              mountPath: {{ $value.mountPath }}
+              subPath: {{ $value.file }}
+            {{- end }}  
             {{- range $name, $value := .Values.bind }}
             - name: {{ $name }}
               mountPath: {{ $value.mountPath }}
             {{- end }}    
           {{- end }}
 
-        {{- /* Open ports on the container that the pod should expose to the service */}}
+        {{- /* -- Open ports on the container that the pod should expose to the service */}}
           {{- if .Values.ports }}
           ports:
             {{- range $name, $value := .Values.ports }}
@@ -70,7 +75,7 @@ spec:
             {{- end }}          
           {{- end }}
           
-        {{- /* Environment variables */}}
+        {{- /* -- Environment variables */}}
           {{- if or .Values.env .Values.env_secret }}
           env:
           {{- range $name, $value := .Values.env }}
@@ -89,6 +94,11 @@ spec:
       {{- /* Volumes mounted in the container */}}
       {{- if .Values.bind }}
       volumes:
+        {{- if .Values.configFiles }}
+        - name: config
+          configMap:
+            name: {{ include "baseChart.name" . }}-config
+        {{- end }}
         {{- range $name, $value := .Values.bind }}
         - name: {{ $name }}
           hostPath: 
