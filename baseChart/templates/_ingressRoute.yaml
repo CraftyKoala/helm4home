@@ -33,7 +33,7 @@ spec:
     {{- $host := printf "%s%s" ( .Values.ingress.public.subdomain | default "" ) .Values.ingress.public.host }}
     
     {{- if .Values.ingress.public.pathPrefix }}
-    match: {{ printf "Host(`%s%s`) && PathPrefix(`/%s`)" $host .Values.ingress.public.pathPrefix }}
+    match: {{ printf "Host(`%s`) && PathPrefix(`/%s`)" $host .Values.ingress.public.pathPrefix }}
     {{- else }}
     match: {{ printf "Host(`%s`)" $host }}
     {{- end }}
