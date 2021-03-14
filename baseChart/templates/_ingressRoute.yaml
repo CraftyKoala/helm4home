@@ -30,10 +30,12 @@ spec:
   routes:
   - kind: Rule
 
+    {{- $host := printf "%s%s" ( .Values.ingress.public.subdomain | default "" ) .Values.ingress.public.host }}
+    
     {{- if .Values.ingress.public.pathPrefix }}
-    match: {{ printf "Host(`%s%s`) && PathPrefix(`/%s`)" .Values.ingress.public.subdomain .Values.ingress.public.host .Values.ingress.public.pathPrefix }}
+    match: {{ printf "Host(`%s%s`) && PathPrefix(`/%s`)" $host .Values.ingress.public.pathPrefix }}
     {{- else }}
-    match: {{ printf "Host(`%s%s`)" .Values.ingress.public.subdomain .Values.ingress.local.host }}
+    match: {{ printf "Host(`%s`)" $host }}
     {{- end }}
 
     {{- if .Values.ingress.public.middlewares }}
@@ -48,6 +50,14 @@ spec:
       port: {{ .Values.ingress.public.port }}
   tls:
     certResolver: {{ .Values.ingress.public.certResolver }}
+    {{- if .Values.ingress.public.sans }}
+    domains:
+    - main: {{ .Values.ingress.public.domain | default $host }}
+      sans:
+      {{- range .Values.ingress.public.sans }}
+      - {{ . }}
+      {{- end }}
+    {{- end }}{{/* if */}}
 
   {{- end }}{{/* if */}}
   {{- end }}{{/* template */}}
