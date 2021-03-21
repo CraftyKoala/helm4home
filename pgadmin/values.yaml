@@ -1,0 +1,28 @@
+replicaCount: 1
+
+image:
+  repository: dpage/pgadmin4
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+env:
+  PGADMIN_DEFAULT_EMAIL: user
+  PGADMIN_DEFAULT_PASSWORD: WRuxr7q@iaZ@7_qNPQ6p2L.VjkfRH2dK2Kgsh_68j9 # change this
+
+bind: 
+  data:
+    mountPath: /var/lib/pgadmin
+    hostPath: /var/lib/pgadmin
+
+# Internal port
+ports: 
+  http:
+    port: 80
+
+# External access
+ingress:
+  local:
+    host: ""                           # Change this
+    subdomain: pgadmin.
+    port: 80
