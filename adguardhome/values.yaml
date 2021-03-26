@@ -1,0 +1,50 @@
+replicaCount: 1
+
+#Docker image
+image:
+  repository: adguard/adguardhome
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+# Main Data storage location
+bind: 
+  config:
+    mountPath: /opt/adguardhome/conf
+    hostPath: /var/lib/adguard/config
+  data:
+    mountPath: /opt/adguardhome/work
+    hostPath: /var/lib/adguard/data
+
+# Internal ports
+ports: 
+  ui:
+    port: 3000
+    type: TCP
+
+externalIP: # Change
+externalPorts:
+  # DNS ----
+  dns:
+    port: 53
+    type: UDP
+  dns-tcp:
+    port: 53
+    type: TCP
+  # DHCP ----
+  dhcp-dest:
+    port: 67
+    type: UDP
+  dhcp-source:
+    port: 68
+    type: UDP
+  dhcp-tcp:
+    port: 68
+    type: TCP
+
+# External access
+ingress:
+  local:
+    host: ""                           # Change this
+    subdomain: adguard.
+    port: 3000
