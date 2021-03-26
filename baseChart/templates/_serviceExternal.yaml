@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "baseChart.name" . }}-external
+  name: {{ include "baseChart.name" . }}{{ .Values.serviceSuffixExternal | default "-external" }}
   labels:
     {{- include "baseChart.labels" . | nindent 4 }}
 spec:

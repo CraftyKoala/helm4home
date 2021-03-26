@@ -13,7 +13,7 @@ spec:
   - match: {{ printf "Host(`%s%s`)" .Values.ingress.local.subdomain .Values.ingress.local.host }}
     kind: Rule
     services:
-    - name: {{ include "baseChart.name" . }}
+    - name: {{ include "baseChart.name" . }}{{ .Values.serviceSuffixInternal | default "" }}
       port: {{ .Values.ingress.local.port }}
 
 {{- end }}{{/* if */}}
@@ -46,7 +46,7 @@ spec:
       {{- end }}
     {{- end }}
     services:
-    - name: {{ include "baseChart.name" . }}
+    - name: {{ include "baseChart.name" . }}{{ .Values.serviceSuffixInternal | default "" }}
       port: {{ .Values.ingress.public.port }}
   tls:
     certResolver: {{ .Values.ingress.public.certResolver }}

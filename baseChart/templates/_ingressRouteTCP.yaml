@@ -11,7 +11,7 @@ spec:
   routes:
   - match: HostSNI(`*`)
     services:
-    - name: {{ include "baseChart.name" . }}
+    - name: {{ include "baseChart.name" . }}{{ .Values.serviceSuffixInternal | default "" }}
       port: {{ .Values.ingressTCP.port }}
       weight: 10
       terminationDelay: 400

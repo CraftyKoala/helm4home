@@ -11,6 +11,9 @@ configFiles:
     mountPath: /etc/rabbitmq/enabled_plugins
     file: enabled_plugins
 
+serviceSuffixInternal: -ui
+serviceSuffixExternal: -broker
+
 # Main Data storage location
 bind: 
   data:
