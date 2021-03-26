@@ -1,4 +1,0 @@
----
-{{- if .Values.ingress }}
-{{- template "baseChart.ingressRouteTCP.tpl" . }}
-{{- end }}

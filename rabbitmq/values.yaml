@@ -23,10 +23,13 @@ env_secret:
 
 # Internal port
 ports: 
-  mqtt:
-    port: 1883
   http:
     port: 15672
+
+externalIP: #change this
+externalPorts:
+  mqtt:
+    port: 1883
 
 ingressTCP:
   endpoint: mqtt
