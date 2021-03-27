@@ -1,0 +1,102 @@
+---
+
+    {{- define "baseChart.deploymentSpec.tpl" -}}
+
+    {{/* Variables */}}
+    {{ $credSecret := include "baseChart.secretName" . }}
+
+      dnsPolicy: ClusterFirst
+
+      {{- /* ID of user and group for the container */}}
+      {{- if .Values.security }}
+      securityContext:
+        runAsUser: {{ default 1000 .Values.security.user }}
+        runAsGroup: {{ default 1000 .Values.security.group }}
+        fsGroup: {{ default 1000 .Values.security.fsgroup }}
+      {{- end }}
+
+      {{- /* -- Definition of the container running inside the pod */}}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.command }}
+          command: 
+            {{- range .Values.command }}
+            - {{ . | quote }}
+            {{- end }}
+          {{- end }}
+          {{- if .Values.args }}
+          args:
+            {{- range .Values.args }}
+            - {{ . | quote }}
+            {{- end }}
+          {{- end }}
+
+        {{- /* -- Volumes mounted in the container */}}
+          {{- if .Values.bind }}
+          volumeMounts:
+            {{- range $name, $value := .Values.configFiles }}
+            - name: config
+              mountPath: {{ $value.mountPath }}
+              subPath: {{ $value.file }}
+            {{- end }}  
+            {{- range $name, $value := .Values.bind }}
+            - name: {{ $name }}
+              mountPath: {{ $value.mountPath }}
+            {{- end }}    
+          {{- end }}
+
+        {{- /* -- Open ports on the container that the pod should expose to the service */}}
+          {{- if .Values.ports }}
+          ports:
+            {{- range $name, $value := .Values.ports }}
+            - name: {{ $name }}
+              containerPort: {{ $value.port }}
+              {{- if $value.hostPort }}
+              hostPort: {{ $value.hostPort }}
+              {{- end }}  
+              protocol: {{ $value.type | default "TCP" }}
+            {{- end }}   
+            {{- range $name, $value := .Values.externalPorts }}
+            - name: {{ $name }}
+              containerPort: {{ $value.port }}
+              {{- if $value.hostPort }}
+              hostPort: {{ $value.hostPort }}
+              {{- end }}  
+              protocol: {{ $value.type | default "TCP" }}
+            {{- end }}        
+          {{- end }}
+          
+        {{- /* -- Environment variables */}}
+          {{- if or .Values.env .Values.env_secret }}
+          env:
+          {{- range $name, $value := .Values.env }}
+          - name: {{ $name }}
+            value: {{ $value | quote }}
+          {{- end }}
+          {{- range $name, $value := .Values.env_secret }}
+          - name: {{ $name }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ $credSecret }}
+                key: {{ $name }}
+          {{- end }}
+          {{- end }}
+        
+      {{- /* Volumes mounted in the container */}}
+      {{- if .Values.bind }}
+      volumes:
+        {{- if .Values.configFiles }}
+        - name: config
+          configMap:
+            name: {{ include "baseChart.name" . }}-config
+        {{- end }}
+        {{- range $name, $value := .Values.bind }}
+        - name: {{ $name }}
+          hostPath: 
+            path: {{ $value.hostPath }}
+            type: {{ $value.type | default "DirectoryOrCreate" }}
+        {{- end }}    
+      {{- end }}
+    {{- end -}}
