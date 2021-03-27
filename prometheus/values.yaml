@@ -7,6 +7,10 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
+args:
+  - --web.enable-lifecycle
+  - --config.file=/etc/prometheus/prometheus.yml
+
 bind: 
   config:
     mountPath: /etc/prometheus
