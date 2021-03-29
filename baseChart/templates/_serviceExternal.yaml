@@ -1,17 +1,18 @@
 {{- define "baseChart.externalservice.tpl" -}}
+{{ if .Values.externalService }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "baseChart.name" . }}{{ .Values.serviceSuffixExternal | default "-external" }}
+  name: {{ include "baseChart.name" . }}{{ .Values.externalService.suffix | default "-external"}}
   labels:
     {{- include "baseChart.labels" . | nindent 4 }}
 spec:
 
   externalIPs: 
-    - {{ .Values.externalIP }}
+    - {{ .Values.externalService.IP }}
   
   {{- /* Type of the service should be ClusterIP in mostcased so this is the default if no value is given */}}
-  type: {{ .Values.serviceType | default "ClusterIP" }}
+  type: {{ .Values.externalService.serviceType | default "ClusterIP" }}
 
   {{- /* Ports the service is exposing in the cluster */}}
   {{- if .Values.externalPorts }}
@@ -28,4 +29,5 @@ spec:
   selector:
     {{- include "baseChart.selectorLabels" . | nindent 4 }}
 
+{{- end -}}
 {{- end -}}

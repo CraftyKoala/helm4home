@@ -7,6 +7,11 @@ metadata:
     {{- include "baseChart.labels" . | nindent 4 }}
 spec:
 
+  {{- if .Values.externalIP }}
+  externalIPs: 
+    - {{ .Values.externalIP }}
+  {{- end }}
+
   {{- /* Type of the service should be ClusterIP in mostcased so this is the default if no value is given */}}
   type: {{ .Values.serviceType | default "ClusterIP" }}
 

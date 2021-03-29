@@ -1,10 +1,7 @@
 ---
-
     {{- define "baseChart.deploymentSpec.tpl" -}}
-
     {{/* Variables */}}
-    {{ $credSecret := include "baseChart.secretName" . }}
-
+    {{- $credSecret := include "baseChart.secretName" . }}
       dnsPolicy: ClusterFirst
 
       {{- /* ID of user and group for the container */}}
@@ -48,8 +45,9 @@
           {{- end }}
 
         {{- /* -- Open ports on the container that the pod should expose to the service */}}
-          {{- if .Values.ports }}
+          {{- if or .Values.ports .Values.externalPorts }}
           ports:
+
             {{- range $name, $value := .Values.ports }}
             - name: {{ $name }}
               containerPort: {{ $value.port }}
@@ -58,6 +56,7 @@
               {{- end }}  
               protocol: {{ $value.type | default "TCP" }}
             {{- end }}   
+
             {{- range $name, $value := .Values.externalPorts }}
             - name: {{ $name }}
               containerPort: {{ $value.port }}
@@ -65,7 +64,8 @@
               hostPort: {{ $value.hostPort }}
               {{- end }}  
               protocol: {{ $value.type | default "TCP" }}
-            {{- end }}        
+            {{- end }}   
+
           {{- end }}
           
         {{- /* -- Environment variables */}}
