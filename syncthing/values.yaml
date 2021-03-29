@@ -1,0 +1,35 @@
+replicaCount: 1
+
+image:
+  repository: linuxserver/syncthing
+  pullPolicy: IfNotPresent
+  tag: ""
+
+env:
+  PUID: 1000
+  PGID: 1000
+  TZ: Europe/Berlin
+
+bind: 
+  config:
+    mountPath: /config
+    hostPath: /var/lib/syncthing/config
+
+# Internal port
+ports: 
+  http:
+    port: 8384
+    type: TCP
+  sync:
+    port: 22000
+    type: TCP
+  syncudp:
+    port: 21027
+    type: UDP
+
+# Ingress
+ingress:
+  local:
+    host:
+    subdomain: syncthing.
+    port: 8384

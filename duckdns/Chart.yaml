@@ -1,0 +1,11 @@
+apiVersion: v2
+name: duckdns
+type: application
+
+version: 0.0.1
+appVersion: version-3a3f0388
+
+dependencies:
+- name: baseChart
+  version: 0.1.0
+  repository: "file://../baseChart"

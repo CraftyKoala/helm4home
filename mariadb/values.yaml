@@ -1,0 +1,26 @@
+replicaCount: 1
+
+image:
+  repository: linuxserver/mariadb
+  pullPolicy: IfNotPresent
+  tag: ""
+
+# Data storage
+bind: 
+  data:
+    mountPath: /config
+    hostPath: /var/lib/mariadb
+
+env:
+  PUID: 1000
+  PGUID: 1000
+  TZ: Europe/Berlin
+
+env_secret:
+  MYSQL_ROOT_PASSWORD:
+
+
+# Internal port
+ports: 
+  http:
+    port: 3306

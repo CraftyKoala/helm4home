@@ -1,0 +1,21 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "baseChart.name" . }}
+  labels:
+    {{- include "baseChart.labels" . | nindent 4 }}
+spec:
+
+  type: ClusterIP
+
+  {{- /* Ports the service is exposing in the cluster */}}
+  ports:
+    - name: http
+      port: {{ .Values.ports.http.port }}
+      targetPort: {{ .Values.ports.http.port }}
+      protocol: TCP
+
+  {{- /* Selectors to identify pods to forward to */}}
+  selector:
+    {{- include "baseChart.selectorLabels" . | nindent 4 }}

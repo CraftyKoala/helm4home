@@ -1,0 +1,22 @@
+replicaCount: 1
+
+image:
+  repository: phpmyadmin
+  pullPolicy: IfNotPresent
+  tag: ""
+
+env:
+  PMA_HOST: mariadb
+  PMA_PORT: 3306
+
+# Internal port
+ports: 
+  http:
+    port: 80
+
+# Ingress
+ingress:
+  local:
+    host:
+    subdomain: phpmyadmin.
+    port: 80

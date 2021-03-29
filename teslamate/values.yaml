@@ -5,7 +5,6 @@ replicaCount: 1
 image:
   repository: teslamate/teslamate
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
 ports: 
@@ -19,12 +18,12 @@ env:
 
 env_secret:
   DATABASE_USER: ""
-  DATABASE_PASS: secret
+  DATABASE_PASS:
   MQTT_USERNAME: ""
-  MQTT_PASSWORD: secret
+  MQTT_PASSWORD:
 
 ingress:
   local:
-    host: ""                           # Change this
+    host:
     subdomain: teslamate.
     port: 4000

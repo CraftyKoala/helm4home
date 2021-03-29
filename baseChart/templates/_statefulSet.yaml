@@ -1,0 +1,21 @@
+---
+{{- define "baseChart.statefulset.tpl" -}}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "baseChart.name" . }}
+  labels:
+    {{- include "baseChart.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  serviceName: {{ ( include "baseChart.name" . ) | quote }}
+  selector:
+    matchLabels:
+      {{- include "baseChart.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "baseChart.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- template "baseChart.deploymentSpec.tpl" . }}
+{{- end -}}

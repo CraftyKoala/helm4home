@@ -1,0 +1,11 @@
+apiVersion: v2
+name: prometheus
+type: application
+
+version: 0.0.1
+appVersion: v2.25.2
+
+dependencies:
+- name: baseChart
+  version: 0.1.0
+  repository: "file://../baseChart"

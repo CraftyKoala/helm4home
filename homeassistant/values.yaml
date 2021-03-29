@@ -1,0 +1,26 @@
+replicaCount: 1
+
+image:
+  repository: homeassistant/home-assistant
+  pullPolicy: IfNotPresent
+  tag: ""
+
+bind: 
+  data:
+    mountPath: /config
+    hostPath: /var/lib/home-assistant
+
+env:
+  TZ: Europe/Berlin
+
+# Internal ports
+ports: 
+  http:
+    port: 8123
+
+# Ingress
+ingress:
+  local:
+    host: ""                           # Change this
+    subdomain: home.
+    port: 8123  

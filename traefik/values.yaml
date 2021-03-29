@@ -1,15 +1,13 @@
-# Default values for homer.
 namespace: kube-system
 replicaCount: 1
 
-# Docker Image for Traefik
+# Docker Image
 image:
   repository: traefik
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
-# Define the available entrypoints for traefik 
+# Available entrypoints
 entryPoints:
   web:
     port: 80
@@ -18,18 +16,18 @@ entryPoints:
     port: 443
     protocol: TCP
 
-# [Change] External IP of treafik
-hostIP: 0.0.0.0
+# External IP
+hostIP: 
 
-# [Change] External url of traefik {prefix}{host}
+# External url {prefix}{host}
 ingress:  # Change this
-  host: ""                           
+  host:
   prefix: traefik.
 
-# [Change] DuckDNS configuration, set empty string "" to remove 
+# DuckDNS configuration, set empty string "" to remove 
 duckdns:            
   secretName: duckdns-token
   caServer: https://acme-staging-v02.api.letsencrypt.org/directory
   email: some.one@mail.com
   token: ""
-  certPath: /val/lib/traefik/cert
+  certPath: /var/lib/traefik/cert

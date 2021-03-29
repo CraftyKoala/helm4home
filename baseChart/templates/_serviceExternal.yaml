@@ -1,0 +1,33 @@
+{{- define "baseChart.externalservice.tpl" -}}
+{{ if .Values.externalService }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "baseChart.name" . }}{{ .Values.externalService.suffix | default "-external"}}
+  labels:
+    {{- include "baseChart.labels" . | nindent 4 }}
+spec:
+
+  externalIPs: 
+    - {{ .Values.externalService.IP }}
+  
+  {{- /* Type of the service should be ClusterIP in mostcased so this is the default if no value is given */}}
+  type: {{ .Values.externalService.serviceType | default "ClusterIP" }}
+
+  {{- /* Ports the service is exposing in the cluster */}}
+  {{- if .Values.externalPorts }}
+  ports:
+    {{- range $name, $value := .Values.externalPorts }}
+    - name: {{ $name }}
+      port: {{ $value.port }}
+      targetPort: {{ $value.port }}
+      protocol: {{ $value.type | default "TCP" }}
+    {{- end }}
+  {{- end }}
+
+  {{- /* Selectors to identify pods to forward to */}}
+  selector:
+    {{- include "baseChart.selectorLabels" . | nindent 4 }}
+
+{{- end -}}
+{{- end -}}

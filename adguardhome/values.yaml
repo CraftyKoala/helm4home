@@ -1,0 +1,49 @@
+replicaCount: 1
+
+#Docker image
+image:
+  repository: adguard/adguardhome
+  pullPolicy: IfNotPresent
+  tag: ""
+
+# Data storage
+bind: 
+  config:
+    mountPath: /opt/adguardhome/conf
+    hostPath: /var/lib/adguard/config
+  data:
+    mountPath: /opt/adguardhome/work
+    hostPath: /var/lib/adguard/data
+
+# Internal ports
+ports: 
+  ui:
+    port: 3000
+    type: TCP
+
+externalIP:
+externalPorts:
+  # DNS ----
+  dns:
+    port: 53
+    type: UDP
+  dns-tcp:
+    port: 53
+    type: TCP
+  # DHCP ----
+  dhcp-dest:
+    port: 67
+    type: UDP
+  dhcp-source:
+    port: 68
+    type: UDP
+  dhcp-tcp:
+    port: 68
+    type: TCP
+
+# Ingress
+ingress:
+  local:
+    host:
+    subdomain: adguard.
+    port: 3000

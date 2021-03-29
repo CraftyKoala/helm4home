@@ -1,0 +1,11 @@
+apiVersion: v2
+name: phpmyadmin
+type: application
+
+version: 0.0.1
+appVersion: 5
+
+dependencies:
+- name: baseChart
+  version: 0.1.0
+  repository: "file://../baseChart"

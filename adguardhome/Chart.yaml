@@ -1,0 +1,12 @@
+apiVersion: v2
+name: adguard-home
+type: application
+description: Smart dns with rewrite and filtering rules
+
+version: 0.0.1
+appVersion: v0.105.2
+
+dependencies:
+- name: baseChart
+  version: 0.1.0
+  repository: "file://../baseChart"

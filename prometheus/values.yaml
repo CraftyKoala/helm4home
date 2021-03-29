@@ -1,0 +1,32 @@
+replicaCount: 1
+
+# Docker image
+image:
+  repository: prom/prometheus
+  pullPolicy: IfNotPresent
+  tag: ""
+
+# Startup arguments
+args:
+  - --web.enable-lifecycle
+  - --config.file=/etc/prometheus/prometheus.yml
+
+bind: 
+  config:
+    mountPath: /etc/prometheus
+    hostPath: /var/lib/prometheus/config
+  data:
+    mountPath: /prometheus
+    hostPath: /var/lib/prometheus/data
+
+# Internal ports
+ports: 
+  http:
+    port: 9090
+
+# Ingress
+ingress:
+  local:
+    host: ""                           # Change this
+    subdomain: prometheus.
+    port: 9090

@@ -1,0 +1,27 @@
+replicaCount: 1
+
+image:
+  repository: dpage/pgadmin4
+  pullPolicy: IfNotPresent
+  tag: ""
+
+env_secret:
+  PGADMIN_DEFAULT_EMAIL: user
+  PGADMIN_DEFAULT_PASSWORD:
+
+bind: 
+  data:
+    mountPath: /var/lib/pgadmin
+    hostPath: /var/lib/pgadmin
+
+# Internal port
+ports: 
+  http:
+    port: 80
+
+# Ingress
+ingress:
+  local:
+    host:
+    subdomain: pgadmin.
+    port: 80

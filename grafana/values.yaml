@@ -1,26 +1,23 @@
-# Default values for homer.
-
 replicaCount: 1
 
-#Docker image for MinIO
+#Docker image
 image:
   repository: grafana/grafana
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
-# Main Data storage location
+# Data storage 
 bind: 
   data:
     mountPath: /var/lib/grafana
     hostPath: /var/lib/grafana
 
-# Internal port of Chronograf
+# Internal ports
 ports: 
   http:
     port: 3000
 
-# External access
+# Ingress
 ingress:
   local:
     host: ""                           # Change this

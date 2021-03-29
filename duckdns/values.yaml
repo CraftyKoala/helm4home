@@ -1,0 +1,15 @@
+replicaCount: 1
+
+image:
+  repository: linuxserver/duckdns
+  pullPolicy: IfNotPresent
+  tag: ""
+
+env:
+  PUID: 1000
+  PGID: 1000
+  TZ: Europe/Berlin
+  SUBDOMAINS: somedomain
+
+env_secret:
+  TOKEN:

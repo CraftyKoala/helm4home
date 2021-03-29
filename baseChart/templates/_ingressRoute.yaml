@@ -10,10 +10,17 @@ spec:
   entryPoints:
     - web
   routes:
-  - match: {{ printf "Host(`%s%s`)" .Values.ingress.local.subdomain .Values.ingress.local.host }}
-    kind: Rule
+  - kind: Rule
+    match: {{ printf "Host(`%s%s`)" .Values.ingress.local.subdomain .Values.ingress.local.host }}
+    {{- if .Values.ingress.local.middlewares }}
+    middlewares:
+      {{- range .Values.ingress.local.middlewares }}
+      - name: {{ .name }}
+        namespace: {{ .namespace }}
+      {{- end }}
+    {{- end }}
     services:
-    - name: {{ include "baseChart.name" . }}
+    - name: {{ include "baseChart.name" . }}{{ .Values.serviceSuffixInternal | default "" }}
       port: {{ .Values.ingress.local.port }}
 
 {{- end }}{{/* if */}}
@@ -29,11 +36,11 @@ spec:
     - websecure
   routes:
   - kind: Rule
-
+    {{- $host := printf "%s%s" ( .Values.ingress.public.subdomain | default "" ) .Values.ingress.public.host }}    
     {{- if .Values.ingress.public.pathPrefix }}
-    match: {{ printf "Host(`%s%s`) && PathPrefix(`/%s`)" .Values.ingress.public.subdomain .Values.ingress.public.host .Values.ingress.public.pathPrefix }}
+    match: {{ printf "Host(`%s`) && PathPrefix(`/%s`)" $host .Values.ingress.public.pathPrefix }}
     {{- else }}
-    match: {{ printf "Host(`%s%s`)" .Values.ingress.public.subdomain .Values.ingress.local.host }}
+    match: {{ printf "Host(`%s`)" $host }}
     {{- end }}
 
     {{- if .Values.ingress.public.middlewares }}
@@ -44,10 +51,44 @@ spec:
       {{- end }}
     {{- end }}
     services:
-    - name: {{ include "baseChart.name" . }}
+    - name: {{ include "baseChart.name" . }}{{ .Values.serviceSuffixInternal | default "" }}
       port: {{ .Values.ingress.public.port }}
   tls:
     certResolver: {{ .Values.ingress.public.certResolver }}
+    {{- if .Values.ingress.public.sans }}
+    domains:
+    - main: {{ .Values.ingress.public.domain | default $host }}
+      sans:
+      {{- range .Values.ingress.public.sans }}
+      - {{ . }}
+      {{- end }}
+    {{- end }}{{/* if */}}
+{{- end }}{{/* if */}}
 
-  {{- end }}{{/* if */}}
-  {{- end }}{{/* template */}}
+{{- if .Values.ingress.metrics }}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ include "baseChart.name" . }}-metrics
+spec:
+  entryPoints:
+    - metrics
+  routes:
+  - kind: Rule
+    match: {{ printf "PathPrefix(`/%s`)" .Values.ingress.metrics.pathPrefix }}
+
+    {{- if .Values.ingress.metrics.middlewares }}
+    middlewares:
+      {{- range .Values.ingress.metrics.middlewares }}
+      - name: {{ .name }}
+        namespace: {{ .namespace }}
+      {{- end }}
+    {{- end }}
+    services:
+    - name: {{ include "baseChart.name" . }}{{ .Values.serviceSuffixInternal | default "" }}
+      port: {{ .Values.ingress.metrics.port }}
+
+{{- end }}{{/* if */}}
+
+{{- end }}{{/* template */}}

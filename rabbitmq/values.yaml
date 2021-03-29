@@ -1,0 +1,48 @@
+replicaCount: 1
+
+# Docker image
+image:
+  repository: rabbitmq
+  pullPolicy: IfNotPresent
+  tag: ""
+
+# Configuration file
+configFiles:
+  plugins:
+    mountPath: /etc/rabbitmq/enabled_plugins
+    file: enabled_plugins
+
+serviceSuffixInternal: -ui
+serviceSuffixExternal: -broker
+
+# Data storage
+bind: 
+  data:
+    mountPath: /var/lib/rabbitmq
+    hostPath: /var/lib/rabbitmq
+
+env_secret:
+  RABBITMQ_DEFAULT_USER: guest
+  RABBITMQ_DEFAULT_PASS: 
+
+# Internal port
+ports: 
+  http:
+    port: 15672
+
+externalIP:
+externalPorts:
+  mqtt:
+    port: 1883
+
+# Ingress
+ingressTCP:
+  endpoint: mqtt
+  port: 1883
+
+ingress:
+  local:
+    host: ""                           # Change this
+    subdomain: rabbitmq.
+    port: 15672
+

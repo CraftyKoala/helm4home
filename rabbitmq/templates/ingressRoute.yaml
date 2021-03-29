@@ -1,0 +1,4 @@
+---
+{{- if .Values.ingress }}
+{{- template "baseChart.ingressRoute.tpl" . }}
+{{- end }}
