@@ -4,10 +4,9 @@ replicaCount: 1
 image:
   repository: adguard/adguardhome
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
-# Main Data storage location
+# Data storage
 bind: 
   config:
     mountPath: /opt/adguardhome/conf
@@ -22,7 +21,7 @@ ports:
     port: 3000
     type: TCP
 
-externalIP: # Change
+externalIP:
 externalPorts:
   # DNS ----
   dns:
@@ -42,9 +41,9 @@ externalPorts:
     port: 68
     type: TCP
 
-# External access
+# Ingress
 ingress:
   local:
-    host: ""                           # Change this
+    host:
     subdomain: adguard.
     port: 3000

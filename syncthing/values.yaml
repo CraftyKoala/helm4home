@@ -3,7 +3,6 @@ replicaCount: 1
 image:
   repository: linuxserver/syncthing
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
 env:
@@ -28,9 +27,9 @@ ports:
     port: 21027
     type: UDP
 
-# External access
+# Ingress
 ingress:
   local:
-    host: ""                           # Change this
+    host:
     subdomain: syncthing.
     port: 8384

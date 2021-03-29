@@ -1,13 +1,11 @@
-# Default values for homer.
-
 replicaCount: 1
 
 image:
   repository: postgres
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
+# Internal ports
 ports: 
   sql:
     port: 5432
@@ -15,6 +13,7 @@ ports:
 env_secret:
   POSTGRES_PASSWORD: ""
 
+# Data storage
 bind: 
   data:
     mountPath: /var/lib/postgresql/data

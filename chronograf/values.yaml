@@ -1,26 +1,23 @@
-# Default values for homer.
-
 replicaCount: 1
 
-#Docker image for MinIO
+#Docker image
 image:
   repository: chronograf
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
-# Main Data storage location
+# Data storage
 bind: 
   data:
     mountPath: /var/lib/chronograf
     hostPath: /var/lib/influxdb/chronograf
 
-# Internal port of Chronograf
+# Internal ports
 ports: 
   http:
     port: 8888
 
-# External access
+# Ingress
 ingress:
   local:
     host: ""                           # Change this

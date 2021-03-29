@@ -1,12 +1,12 @@
 replicaCount: 1
 
-#Docker image
+# Docker image
 image:
   repository: prom/prometheus
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
+# Startup arguments
 args:
   - --web.enable-lifecycle
   - --config.file=/etc/prometheus/prometheus.yml
@@ -24,7 +24,7 @@ ports:
   http:
     port: 9090
 
-# External access
+# Ingress
 ingress:
   local:
     host: ""                           # Change this

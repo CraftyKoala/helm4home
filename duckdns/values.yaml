@@ -1,11 +1,8 @@
-# Default values for homer.
-
 replicaCount: 1
 
 image:
   repository: linuxserver/duckdns
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
 env:
@@ -15,4 +12,4 @@ env:
   SUBDOMAINS: somedomain
 
 env_secret:
-  TOKEN: "" # Change this
+  TOKEN:

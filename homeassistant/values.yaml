@@ -3,7 +3,6 @@ replicaCount: 1
 image:
   repository: homeassistant/home-assistant
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
 bind: 
@@ -19,7 +18,7 @@ ports:
   http:
     port: 8123
 
-# External access
+# Ingress
 ingress:
   local:
     host: ""                           # Change this

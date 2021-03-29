@@ -1,38 +1,35 @@
-# Default values for homer.
-
 replicaCount: 1
 
-#Docker image for MinIO
+#Docker image
 image:
   repository: minio/minio
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
-# Startup arguments for MinIO
+# Startup arguments
 args: 
   - server 
   - /data
 
-# Main Data storage location
+# Data storage
 bind: 
   data:
     mountPath: /data
     hostPath: /var/lib/minio/data
 
-# Internal port of MinIO
+# Internal ports
 ports: 
   http:
     port: 9000
 
-# MinIO initial credentials (change this)
+# Initial credentials
 env_secret:
-  MINIO_ACCESS_KEY: EgerzAUefgqDvApzG8kuYDB6V4paaoi*ARGgd-P*xn
-  MINIO_SECRET_KEY: jcnGzhUc.x2xg.Kt*c*xMoYwXsN9kGpF*nnBkXU@6c
+  MINIO_ACCESS_KEY:
+  MINIO_SECRET_KEY:
 
-# External access
+# Ingress
 ingress:
   local:
-    host: ""                           # Change this
+    host:
     subdomain: s3.
     port: 9000

@@ -3,7 +3,6 @@ replicaCount: 1
 image:
   repository: nodered/node-red
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
 bind: 
@@ -19,9 +18,9 @@ ports:
   http:
     port: 1880
 
-# External access
+# Ingress
 ingress:
   local:
-    host: ""                           # Change this
+    host:
     subdomain: nodered.
     port: 1880  

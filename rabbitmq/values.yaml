@@ -1,11 +1,12 @@
 replicaCount: 1
 
+# Docker image
 image:
   repository: rabbitmq
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
+# Configuration file
 configFiles:
   plugins:
     mountPath: /etc/rabbitmq/enabled_plugins
@@ -14,7 +15,7 @@ configFiles:
 serviceSuffixInternal: -ui
 serviceSuffixExternal: -broker
 
-# Main Data storage location
+# Data storage
 bind: 
   data:
     mountPath: /var/lib/rabbitmq
@@ -22,23 +23,23 @@ bind:
 
 env_secret:
   RABBITMQ_DEFAULT_USER: guest
-  RABBITMQ_DEFAULT_PASS: WRuxr7q@iaZ@7_qNPQ6p2L.VjkfRH2dK2Kgsh_68j9 # change this
+  RABBITMQ_DEFAULT_PASS: 
 
 # Internal port
 ports: 
   http:
     port: 15672
 
-externalIP: #change this
+externalIP:
 externalPorts:
   mqtt:
     port: 1883
 
+# Ingress
 ingressTCP:
   endpoint: mqtt
   port: 1883
 
-# External access
 ingress:
   local:
     host: ""                           # Change this
