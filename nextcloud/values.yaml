@@ -1,0 +1,40 @@
+replicaCount: 1
+
+#Docker image
+image:
+  repository: nextcloud
+  pullPolicy: IfNotPresent
+  tag: ""
+
+# Data storage
+bind: 
+  config:
+    mountPath: /var/www/html/
+    hostPath: /var/lib/nextcloud/config
+  data:
+    mountPath: /data
+    hostPath: /var/lib/nextcloud/data
+
+# Internal ports
+ports: 
+  http:
+    port: 80
+
+env:
+  POSTGRES_DB:
+  POSTGRES_HOST: database
+  NEXTCLOUD_DATA_DIR: /data
+
+env_secret:
+  NEXTCLOUD_ADMIN_USER: 
+  NEXTCLOUD_ADMIN_PASSWORD: 
+  POSTGRES_USER:
+  POSTGRES_PASSWORD:
+  NEXTCLOUD_TRUSTED_DOMAINS:
+
+# Ingress
+ingress:
+  local:
+    host:
+    subdomain: nextcloud.
+    port: 80
