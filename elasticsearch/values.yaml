@@ -1,0 +1,25 @@
+replicaCount: 1
+
+image:
+  repository: elasticsearch
+  pullPolicy: IfNotPresent
+  tag: ""
+
+# Internal ports
+ports: 
+  request:
+    port: 9200
+  com:
+    port: 9300
+
+env:
+  "discovery.type": "single-node"
+
+# Data storage
+bind: 
+  data:
+    mountPath: /usr/share/elasticsearch/data
+    hostPath: /var/lib/elasticsearch/data
+  plugins:
+    mountPath: /usr/share/elasticsearch/plugins
+    hostPath: /var/lib/elasticsearch/plugins
