@@ -1,0 +1,28 @@
+replicaCount: 1
+
+# Docker image
+image:
+  repository: registry.gitlab.com/arm-research/smarter/smarter-device-manager
+
+resources:
+  requests:
+    cpu: 10m
+    memory: 15Mi
+  limits:
+    cpu: 100m
+    memory: 15Mi
+
+# Data storage
+bind: 
+  device-plugin:
+    mountPath: /var/lib/kubelet/device-plugins
+    hostPath: /var/lib/kubelet/device-plugins
+    type: Directory
+  dev-dir:
+    mountPath: /dev
+    hostPath: /dev
+    type: Directory
+  sys-dir:
+    mountPath: /sys
+    hostPath: /sys
+    type: Directory

@@ -1,0 +1,19 @@
+---
+{{- define "baseChart.daemonSet.tpl" -}}
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: {{ include "baseChart.name" . }}
+  labels:
+    {{- include "baseChart.labels" . | nindent 4 }}    
+spec:
+  selector:
+    matchLabels:
+      {{- include "baseChart.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "baseChart.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- template "baseChart.deploymentSpec.tpl" . }}
+{{- end -}}

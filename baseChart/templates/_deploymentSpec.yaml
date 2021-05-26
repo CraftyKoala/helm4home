@@ -4,6 +4,10 @@
     {{- $credSecret := include "baseChart.secretName" . }}
       dnsPolicy: ClusterFirst
 
+      {{- if .Values.priorityClass}}
+      priorityClassName: {{ .Values.priorityClass }}
+      {{- end }}
+
       {{- /* ID of user and group for the container */}}
       {{- if .Values.security }}
       securityContext:
@@ -16,7 +20,12 @@
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          imagePullPolicy: {{ default "IfNotPresent" .Values.image.pullPolicy }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+
           {{- if .Values.command }}
           command: 
             {{- range .Values.command }}
@@ -27,6 +36,23 @@
           args:
             {{- range .Values.args }}
             - {{ . | quote }}
+            {{- end }}
+          {{- end }}
+          
+        {{- /* -- Required recources */}}
+          {{- if or .Values.resources.requests .Values.resources.limits }}
+          resources:
+            {{- if .Values.resources.requests }}
+            requests:
+              {{- range $name, $value := .Values.resources.requests }}
+              {{ $name }}: {{ $value }}
+              {{- end }}   
+            {{- end }}
+            {{- if .Values.resources.limits }}
+            limits:
+              {{- range $name, $value := .Values.resources.limits }}
+              {{ $name }}: {{ $value }}
+              {{- end }}   
             {{- end }}
           {{- end }}
 
@@ -83,6 +109,8 @@
                 key: {{ $name }}
           {{- end }}
           {{- end }}
+
+          {{- include "custom.containerConfig" . | indent 10 }}
         
       {{- /* Volumes mounted in the container */}}
       {{- if .Values.bind }}
@@ -100,3 +128,5 @@
         {{- end }}    
       {{- end }}
     {{- end -}}
+{{- define "custom.containerConfig" }}
+{{- end }}
