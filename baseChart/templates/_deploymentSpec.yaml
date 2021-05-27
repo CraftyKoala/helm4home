@@ -62,7 +62,9 @@
             {{- range $name, $value := .Values.configFiles }}
             - name: config
               mountPath: {{ $value.mountPath }}
+              {{- if $value.file }}
               subPath: {{ $value.file }}
+              {{- end }}
             {{- end }}  
             {{- range $name, $value := .Values.bind }}
             - name: {{ $name }}

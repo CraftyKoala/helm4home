@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "baseChart.name" . }}-config
+data:
+  conf.yaml: |
+    {{- range $mapping := .Values.deviceMappings }}
+    - devicematch: {{ $mapping.match }}
+      nummaxdevices: {{ $mapping.maxdevices }}
+    {{- end }}
+
