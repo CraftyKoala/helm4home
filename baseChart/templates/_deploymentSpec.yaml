@@ -24,7 +24,11 @@
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
-              drop: ["ALL"]
+              {{ range $action, $value := .Values.capabilities }} }}
+              {{ $action }}: {{ $value }}
+              {{- end }}
+            {{- end }}
+            {{- end }}
 
           {{- if .Values.command }}
           command: 
@@ -40,7 +44,7 @@
           {{- end }}
           
         {{- /* -- Required recources */}}
-          {{- if or .Values.resources.requests .Values.resources.limits }}
+          {{- if or .Values.resources }}
           resources:
             {{- if .Values.resources.requests }}
             requests:
