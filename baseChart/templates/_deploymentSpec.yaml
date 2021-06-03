@@ -23,11 +23,11 @@
           imagePullPolicy: {{ default "IfNotPresent" .Values.image.pullPolicy }}
           securityContext:
             allowPrivilegeEscalation: false
+            {{- if .Values.capabilities }}
             capabilities:
               {{ range $action, $value := .Values.capabilities }} }}
               {{ $action }}: {{ $value }}
               {{- end }}
-            {{- end }}
             {{- end }}
 
           {{- if .Values.command }}

@@ -8,6 +8,10 @@ metadata:
     {{- include "baseChart.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
+  {{- with .Values.strategy }}
+  strategy:
+    type: {{ . }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "baseChart.selectorLabels" . | nindent 6 }}
