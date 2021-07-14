@@ -7,6 +7,9 @@ data:
   traefik.yaml: |
     api:
       dashboard: true
+    
+    pilot:
+      dashboard: false
 
     accessLog: {}
     ping: {}
