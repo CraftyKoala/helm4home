@@ -1,10 +1,15 @@
 replicaCount: 1
+strategy: Recreate
 
 #Docker image
 image:
   repository: adguard/adguardhome
   pullPolicy: IfNotPresent
   tag: ""
+
+# Networking
+dnsPolicy: ClusterFirstWithHostNet
+hostNetwork: true
 
 # Data storage
 bind: 
@@ -20,27 +25,7 @@ ports:
   ui:
     port: 3000
     type: TCP
-
-externalIP:
-externalPorts:
-  # DNS ----
-  dns:
-    port: 53
-    type: UDP
-  dns-tcp:
-    port: 53
-    type: TCP
-  # DHCP ----
-  dhcp-dest:
-    port: 67
-    type: UDP
-  dhcp-source:
-    port: 68
-    type: UDP
-  dhcp-tcp:
-    port: 68
-    type: TCP
-
+    
 # Ingress
 ingress:
   local:

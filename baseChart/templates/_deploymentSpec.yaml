@@ -2,7 +2,8 @@
     {{- define "baseChart.deploymentSpec.tpl" -}}
     {{/* Variables */}}
     {{- $credSecret := include "baseChart.secretName" . }}
-      dnsPolicy: ClusterFirst
+      dnsPolicy: {{ default "ClusterFirst" .Values.dnsPolicy | quote }}
+      hostNetwork: {{ default false .Values.hostNetwork }}
 
       {{- if .Values.priorityClass}}
       priorityClassName: {{ .Values.priorityClass }}
