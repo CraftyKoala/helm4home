@@ -1,0 +1,11 @@
+apiVersion: v2
+name: tandoor
+type: application
+
+version: 0.0.1
+appVersion: 0.16.7
+
+dependencies:
+- name: baseChart
+  version: 0.1.0
+  repository: "file://../baseChart"

@@ -1,0 +1,29 @@
+# Default values for homer.
+
+replicaCount: 1
+
+image:
+  repository: vabene1111/recipes
+  pullPolicy: IfNotPresent
+  tag: ""
+
+ports: 
+  web:
+    port: 8080
+
+env:
+  DB_ENGINE: django.db.backends.postgresql
+  POSTGRES_DB: tandoor
+  POSTGRES_HOST: postgres
+  POSTGRES_PORT: 5432
+
+env_secret:
+  SECRET_KEY: ""
+  POSTGRES_USER: ""
+  POSTGRES_PASSWORD:
+
+ingress:
+  local:
+    host:
+    subdomain: recipes.
+    port: 8080
