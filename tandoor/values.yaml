@@ -7,6 +7,15 @@ image:
   pullPolicy: IfNotPresent
   tag: ""
 
+# Data storage
+bind: 
+  static:
+    mountPath: /opt/recipes/staticfiles
+    hostPath: /var/lib/tandoor/static
+  media:
+    mountPath: /opt/recipes/mediafiles
+    hostPath: /var/lib/tandoor/media
+
 ports: 
   web:
     port: 8080
@@ -16,6 +25,7 @@ env:
   POSTGRES_DB: tandoor
   POSTGRES_HOST: postgres
   POSTGRES_PORT: 5432
+  # JS_REVERSE_SCRIPT_PREFIX: recipes  // enables subpath
 
 env_secret:
   SECRET_KEY: ""
