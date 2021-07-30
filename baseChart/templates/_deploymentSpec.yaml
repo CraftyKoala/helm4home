@@ -83,7 +83,7 @@
 
             {{- range $name, $value := .Values.ports }}
             - name: {{ $name }}
-              containerPort: {{ $value.port }}
+              containerPort: {{ $value.target | default $value.port }}
               {{- if $value.hostPort }}
               hostPort: {{ $value.hostPort }}
               {{- end }}  

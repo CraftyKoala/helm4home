@@ -21,7 +21,7 @@ spec:
     {{- range $name, $value := .Values.ports }}
     - name: {{ $name }}
       port: {{ $value.port }}
-      targetPort: {{ $value.port }}
+      targetPort: {{ $value.target | default $value.port }}
       protocol: {{ $value.type | default "TCP" }}
     {{- end }}
   {{- end }}
