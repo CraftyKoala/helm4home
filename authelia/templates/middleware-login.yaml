@@ -1,0 +1,17 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ include "baseChart.name" . }}-login
+  labels:
+    {{- include "baseChart.labels" . | nindent 4 }}
+
+spec:
+  forwardAuth:
+    address: {{ printf "http://%s.%s.svc.cluster.local:%s/api/verify?rd=%s" (include "baseChart.name" .) .Values.namespace .Values.ports.auth.port .Values.authURL }}
+    trustForwardHeader: true
+    authResponseHeaders:
+      - Remote-User 
+      - Remote-Groups 
+      - Remote-Name
+      - Remote-Email

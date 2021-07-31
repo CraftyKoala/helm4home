@@ -1,0 +1,12 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ include "baseChart.name" . }}-logout
+  labels:
+    {{- include "baseChart.labels" . | nindent 4 }}
+
+spec:
+  redirectRegex:
+    regex: https://(.*)/logout
+    replacement: {{ printf "%s/logout" .Values.authURL }}

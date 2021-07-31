@@ -1,4 +1,7 @@
-# Default values for homer.
+
+namespace: default
+
+authURL:
 
 replicaCount: 1
 
@@ -14,8 +17,8 @@ bind:
     hostPath: /var/lib/authelia/config
 
 ports: 
-  web:
-    port: 9091
+  auth:
+    port: "9091"
 
 env:
   TZ: Europe/Berlin
