@@ -71,6 +71,11 @@
               subPath: {{ $value.file }}
               {{- end }}
             {{- end }}  
+            {{- if .Values.secretsFile }}
+            - name: secrets
+              mountPath: /secrets
+              readOnly: true
+            {{- end }}
             {{- range $name, $value := .Values.bind }}
             - name: {{ $name }}
               mountPath: {{ $value.mountPath }}
@@ -126,6 +131,11 @@
         - name: config
           configMap:
             name: {{ include "baseChart.name" . }}-config
+        {{- end }}
+        {{- if .Values.secretsFile }}
+        - name: secrets
+          secret:
+            secretName: {{ $credSecret }}
         {{- end }}
         {{- range $name, $value := .Values.bind }}
         - name: {{ $name }}
