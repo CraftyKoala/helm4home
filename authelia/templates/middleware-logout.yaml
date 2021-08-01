@@ -8,5 +8,5 @@ metadata:
 
 spec:
   redirectRegex:
-    regex: https://(.*)/logout
+    regex: {{ .Values.logoutRegex }}
     replacement: {{ printf "%s/logout" .Values.authURL }}
