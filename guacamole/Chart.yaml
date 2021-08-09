@@ -1,0 +1,12 @@
+apiVersion: v2
+name: guacamole
+type: application
+description: Clientless remote ssh & virtual desktop
+
+version: 0.0.1
+appVersion: 1.3.0
+
+dependencies:
+- name: baseChart
+  version: 0.1.0
+  repository: "file://../baseChart"

@@ -1,0 +1,41 @@
+deamon:
+  replicaCount: 1
+  strategy: Recreate
+
+  image:
+    repository: linuxserver/guacd
+    pullPolicy: IfNotPresent
+    tag: "version-1.3.0"
+
+  service:
+    port: 4822
+# End Deamon
+
+replicaCount: 1
+strategy: Recreate
+
+image:
+  repository: guacamole/guacamole
+  pullPolicy: IfNotPresent
+  tag: ""
+
+env:
+  GUACD_HOSTNAME: guacamole-deamon
+  GUACD_PORT: 4822
+  POSTGRES_HOSTNAME:
+  POSTGRES_DATABASE:
+
+env_secret:
+  POSTGRES_USER:
+  POSTGRES_PASSWORD:
+
+ports: 
+  portal:
+    port: 8080
+    type: TCP
+    
+ingress:
+  local:
+    host:
+    subdomain: guac.
+    port: 8080

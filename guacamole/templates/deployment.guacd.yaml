@@ -1,0 +1,32 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "baseChart.name" . }}-deamon
+  labels:
+    app.kubernetes.io/name: {{ include "baseChart.name" . }}-deamon
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.deamon.replicaCount }}
+  {{- with .Values.strategy }}
+  strategy:
+    type: {{ . }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "baseChart.name" . }}-deamon
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "baseChart.name" . }}-deamon
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}-deamon
+          image: "{{ .Values.deamon.image.repository }}:{{ .Values.deamon.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.deamon.image.pullPolicy }}
+          ports:
+            - name: guacd
+              containerPort: 4822
+              protocol: TCP
