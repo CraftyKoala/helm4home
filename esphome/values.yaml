@@ -1,0 +1,30 @@
+replicaCount: 1
+strategy: Recreate
+
+#Docker image
+image:
+  repository: esphome/esphome
+  pullPolicy: IfNotPresent
+  tag: ""
+
+# Data storage
+bind: 
+  config:
+    mountPath: /config
+    hostPath: /var/lib/esphome/config
+
+env:
+  ESPHOME_DASHBOARD_USE_PING: true
+
+# Internal ports
+ports: 
+  ui:
+    port: 6052
+    type: TCP
+    
+# Ingress
+ingress:
+  local:
+    host:
+    subdomain: esphome.
+    port: 6052
