@@ -1,0 +1,28 @@
+replicaCount: 1
+
+#Docker image
+image:
+  repository: linuxserver/code-server
+  pullPolicy: IfNotPresent
+  tag: ""
+
+bind:
+  config:
+    mountPath: /config
+    hostPath: /var/lib/vscode/config
+
+
+env:  
+  TZ: Europe/Berlin
+
+# Internal ports
+ports: 
+  http:
+    port: 8443
+
+# Ingress
+ingress:
+  local:
+    host: ""                           # Change this
+    subdomain: code.
+    port: 8443
