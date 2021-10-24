@@ -1,0 +1,19 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ include "baseChart.name" . }}-cors--headers
+  labels:
+    {{- include "baseChart.labels" . | nindent 4 }}
+
+spec:
+  headers:
+    accessControlAllowMethods:
+      - "GET"
+      - "PUT"
+      - "POST"
+    accessControlAllowOriginList:
+      - "https://apps.schweitzer-roth.duckdns.org"
+      - "https://auth.schweitzer-roth.duckdns.org"
+    accessControlMaxAge: 100
+    addVaryHeader: true
