@@ -3,7 +3,7 @@ name: authelia
 type: application
 
 version: 0.0.1
-appVersion: 4.29
+appVersion: 4.33
 
 dependencies:
 - name: baseChart
