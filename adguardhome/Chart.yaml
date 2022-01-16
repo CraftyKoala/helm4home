@@ -4,7 +4,7 @@ type: application
 description: Smart dns with rewrite and filtering rules
 
 version: 0.0.1
-appVersion: v0.106.3
+appVersion: v0.107.2
 
 dependencies:
 - name: baseChart
