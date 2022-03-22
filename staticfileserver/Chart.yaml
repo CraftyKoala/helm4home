@@ -3,7 +3,7 @@ name: static-file-server
 type: application
 
 version: 0.0.1
-appVersion: v1.8.3
+appVersion: v1.8.5
 
 dependencies:
 - name: baseChart

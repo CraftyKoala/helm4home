@@ -3,7 +3,7 @@ name: teslamate
 type: application
 
 version: 0.0.1
-appVersion: 1.21
+appVersion: 1.25
 
 dependencies:
 - name: baseChart

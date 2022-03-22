@@ -3,7 +3,7 @@ name: vscode
 type: application
 
 version: 0.0.1
-appVersion: version-v3.11.0
+appVersion: version-v4.0.1
 
 dependencies:
 - name: baseChart

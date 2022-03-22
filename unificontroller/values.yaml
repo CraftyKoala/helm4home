@@ -1,27 +1,43 @@
 replicaCount: 1
+strategy: Recreate
 
 image:
   repository: linuxserver/unifi-controller
   pullPolicy: IfNotPresent
   tag: ""
 
+# Networking
+dnsPolicy: ClusterFirstWithHostNet
+hostNetwork: true
+
 bind: 
-  data:
+  config:
     mountPath: /config
     hostPath: /var/lib/unifi
 
-resources:
-  limits:
-    memory: 1G
-
 # Internal ports
 ports: 
-  https:
+  device:
+    port: 8080
+    type: TCP    
+  ui:
     port: 8443
-
-# Ingress
-ingress:
-  local:
-    host: ""                           # Change this
-    subdomain: unifi.
-    port: 8443  
+    type: TCP
+  http-redirect:
+    port: 8880
+    type: TCP
+  https-redirect:
+    port: 8843
+    type: TCP
+  tp-measurement:
+    port: 6789
+    type: TCP
+  stun:
+    port: 3478
+    type: UDP
+  net-discover:
+    port: 1900
+    type: UDP
+  discovery:
+    port: 10001
+    type: UDP

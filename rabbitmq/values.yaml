@@ -13,7 +13,10 @@ configFiles:
     file: enabled_plugins
 
 serviceSuffixInternal: -ui
-serviceSuffixExternal: -broker
+
+externalService:
+  suffix: -broker
+  IP:
 
 # Data storage
 bind: 

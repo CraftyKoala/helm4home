@@ -3,7 +3,7 @@ name: nextcloud
 type: application
 
 version: 0.0.1
-appVersion: 21.0.0
+appVersion: 23.0.0
 
 dependencies:
 - name: baseChart

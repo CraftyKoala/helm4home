@@ -3,7 +3,7 @@ name: heimdall
 type: application
 
 version: 0.0.1
-appVersion: version-2.2.2
+appVersion: 2.2.2
 
 dependencies:
 - name: baseChart

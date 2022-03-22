@@ -3,7 +3,7 @@ name: minio
 type: application
 
 version: 0.0.1
-appVersion: RELEASE.2020-12-03T05-49-24Z
+appVersion: RELEASE.2022-01-08T03-11-54Z
 
 dependencies:
 - name: baseChart

@@ -3,7 +3,7 @@ name: mariadb
 type: application
 
 version: 0.0.1
-appVersion: version-110.4.18mariabionic
+appVersion: 10.5.13
 
 dependencies:
 - name: baseChart
