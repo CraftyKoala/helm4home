@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: homeassistant/home-assistant
+  repository: ghcr.io/home-assistant/home-assistant
   pullPolicy: IfNotPresent
   tag: ""
 

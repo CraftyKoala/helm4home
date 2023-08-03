@@ -3,7 +3,7 @@ name: home-assistant
 type: application
 
 version: 0.0.1
-appVersion: 2023.4
+appVersion: 2023.8
 
 dependencies:
 - name: baseChart
