@@ -17,6 +17,8 @@ env:
 ports: 
   http:
     port: 8123
+  unicast:
+    port: 5683
 
 # Ingress
 ingress:
